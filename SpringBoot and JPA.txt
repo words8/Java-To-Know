@@ -1,0 +1,117 @@
+ORM :
+Object Relational Mapping
+
+Once java objects are mapped to RDBMS, the frameworks will generate DDL and DML.
+ORM frameworks: 
+	Hibernate, Toplink, KODO, OpenJPA, EclipseLink
+
+JPA is a specification for using ORM framework. 
+
+JPA provides persistence context that manages entities called Entity Manager. Synchronises the object to datgabase. 
+Searches for all the objects with an entity tag.
+
+Spring --> Lighweight Container for building enterprise applications. 
+	   Spring Container provides :
+		Lifecycle management of objects.
+		Wires dependencies
+	   Works on inversion of Control pattern/ Dependency Injection
+
+Normal flow of cide:
+UI-> Service->DAO->Connection->Database
+With Spring:
+Database->Connection->DAO....
+
+We get ready to use objects and those are wired using the metadata. You can use it directly.
+Bean : Spring manages the object. (For spring)
+Bean : Actual defintion-> Any reusable object.
+
+Spring instantiates classes which has onbe of these annotations:
+	@Component  : Normally used for spring to manage the class. Use others if you need extra support from spring
+	@Repository : If you write a custom DAO class, add this to the top of the class, so that spring manage it. 
+	@Service
+	@Controller
+	@RestController
+	.
+	.
+	.
+
+Spring uses @Autowired or @Inject(works with other frameworks too) annotaions for wiring
+
+public interface ProductDao{
+}
+@Repository
+<---@Primary --- for dealing with ambiguity, if multiple implementations of the interfacve are present-->
+public class ProductDaoJdbcImpl implements ProductDao{
+}
+
+
+@Servicve
+public class SampleService{
+	@Autowired
+	<--@Qualifier("productDaoJPAImpl")-- can be ysed ti resolve ambiguity-->
+	private ProductDao productDao;
+}
+
+--- 
+Spring provides Declarative Tx Support
+Programmatic Tx:
+
+class BankingService{
+	public void .....{
+	   try{	
+		SQL1 = "update ..
+		SQL2 = "update ..
+		SQL3 =  " insert into ...
+
+		SQL1 execute
+		.
+		.
+		con.commit();
+	    } catch(SQLException ex){
+		con.rollback();
+	    }
+       }
+}
+
+Equivalently:
+
+class BankingService{
+	@Transactional
+	public void .....{
+		SQL1 = "update ..
+		SQL2 = "update ..
+		SQL3 =  " insert into ...
+
+		SQL1 execute
+		.
+		.
+		con.commit();
+       }
+}
+
+---------------------------------
+Spring DAO :
+If you sstart with "findBy%" it reads it like where clause with the 
+
+
+--------------------------------
+DispatcherServlet: also called Front Controller
+Entry point for requests and exit point for responses.
+
+Request goes to Habdlermapping classes. this then searches for classes marked controller(webpages) or restControllers.
+FInd the Controller and then retyrns it ti thge dispatch servlet which calls the reflection on the method and invoke it.
+
+
+@RestController
+@RequestMapping("product")
+public class productContoller{
+}
+
+RESTful Web Service:
+ REST uses URI to identify reource.
+ uses HTTP methods to identify which method to invoke
+	GET, POST, PUT, DELETE
+ REST uses the following HTTP headers:
+ accept       : application/json       //client sends this header to tell that it accepts in json
+ content-type : application/json       // header tthat tells that server is being sent what cntent type
+
